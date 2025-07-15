@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>My Profile – TheKelo Social</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <h1>My Profile</h1>
+    <a href="index.html">← Back to Feed</a>
+  </header>
+
+  <section class="profile-box">
+    <img src="https://via.placeholder.com/100" alt="Profile" class="profile-pic" />
+    <h2>User123</h2>
+    <p>Hi, I'm User123. Welcome to my profile. I love building with Kelo Social!</p>
+  </section>
+
+  <section class="user-posts">
+    <h3>My Posts</h3>
+    
+    <div class="post">
+      <p><strong>User123</strong> · 1 hour ago</p>
+      <p>This is my first post on TheKelo Social!</p>
+      <img src="https://via.placeholder.com/400x250" />
+      <p class="like-btn" onclick="toggleLike(this)">❤️ Like</p>
+    </div>
+
+    <div class="post">
+      <p><strong>User123</strong> · Yesterday</p>
+      <p>Loving the vibes here!</p>
+      <p class="like-btn" onclick="toggleLike(this)">❤️ Like</p>
+    </div>
+  </section>
+
+  <script src="script.js"></script>
+</body>
+</html>
