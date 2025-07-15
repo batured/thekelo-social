@@ -12,29 +12,49 @@
     <a href="index.html">← Back to Feed</a>
   </header>
 
-  <section class="profile-box">
-    <img src="https://via.placeholder.com/100" alt="Profile" class="profile-pic" />
-    <h2>User123</h2>
-    <p>Hi, I'm User123. Welcome to my profile. I love building with Kelo Social!</p>
+  <section class="profile-box" id="profileBox">
+    <p>Loading profile...</p>
   </section>
 
-  <section class="user-posts">
-    <h3>My Posts</h3>
-    
-    <div class="post">
-      <p><strong>User123</strong> · 1 hour ago</p>
-      <p>This is my first post on TheKelo Social!</p>
-      <img src="https://via.placeholder.com/400x250" />
-      <p class="like-btn" onclick="toggleLike(this)">❤️ Like</p>
-    </div>
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js"></script>
 
-    <div class="post">
-      <p><strong>User123</strong> · Yesterday</p>
-      <p>Loving the vibes here!</p>
-      <p class="like-btn" onclick="toggleLike(this)">❤️ Like</p>
-    </div>
-  </section>
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyCcY7tGBj6EfC8JYX5TLzquisG_2sTKjwA",
+      authDomain: "thekelosocial.firebaseapp.com",
+      projectId: "thekelosocial",
+      storageBucket: "thekelosocial.firebasestorage.app",
+      messagingSenderId: "556528598910",
+      appId: "1:556528598910:web:5a79bc9c3de2b6fd33fd2f"
+    };
 
-  <script src="script.js"></script>
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+
+    auth.onAuthStateChanged(user => {
+      if (!user) return window.location.href = "auth.html";
+
+      db.collection("users").doc(user.uid).get().then(doc => {
+        if (doc.exists) {
+          const data = doc.data();
+          document.getElementById("profileBox").innerHTML = `
+            <img src="${data.photoURL || 'https://via.placeholder.com/100'}" class="profile-pic" />
+            <h2>${data.displayName || user.email}</h2>
+            <p>${data.bio || 'No bio added yet.'}</p>
+            <a href="setup.html">Edit Profile</a>
+          `;
+        } else {
+          document.getElementById("profileBox").innerHTML = `
+            <p>No profile found.</p>
+            <a href="setup.html">Create Profile</a>
+          `;
+        }
+      });
+    });
+  </script>
 </body>
 </html>
