@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login – TheKelo Social</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <h1>TheKelo Login</h1>
+  </header>
+
+  <section class="post-form">
+    <input type="email" id="email" placeholder="Email" /><br><br>
+    <input type="password" id="password" placeholder="Password" /><br><br>
+
+    <button onclick="signUp()">Sign Up</button>
+    <button onclick="signIn()">Log In</button>
+    <button onclick="logOut()">Log Out</button>
+
+    <p id="authStatus"></p>
+  </section>
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js"></script>
+
+  <script>
+    // PASTE_YOUR_CONFIG_HERE
+    const firebaseConfig = {
+      apiKey: "AIzaSyCcY7tGBj6EfC8JYX5TLzquisG_2sTKjwA",
+      authDomain: "thekelosocial.firebaseapp.com",
+      projectId: "thekelosocial",
+      storageBucket: "thekelosocial.firebasestorage.app",
+      messagingSenderId: "556528598910",
+      appId: "1:556528598910:web:5a79bc9c3de2b6fd33fd2f"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+
+    function signUp() {
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      auth.createUserWithEmailAndPassword(email, password)
+        .then(() => {
+          document.getElementById('authStatus').innerText = 'Signup successful!';
+        })
+        .catch(error => {
+          document.getElementById('authStatus').innerText = error.message;
+        });
+    }
+
+    function signIn() {
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      auth.signInWithEmailAndPassword(email, password)
+        .then(() => {
+          document.getElementById('authStatus').innerText = 'Login successful!';
+          window.location.href = "index.html"; // redirect to homepage
+        })
+        .catch(error => {
+          document.getElementById('authStatus').innerText = error.message;
+        });
+    }
+
+    function logOut() {
+      auth.signOut().then(() => {
+        document.getElementById('authStatus').innerText = 'Logged out.';
+      });
+    }
+  </script>
+</body>
+</html>
